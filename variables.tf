@@ -30,3 +30,9 @@ variable "aws_keyname" {
 
 variable "aws_key_pair" {  
 }
+
+variable "aws_cidr" {
+}
+
+variable "aws_public_key" {
+}

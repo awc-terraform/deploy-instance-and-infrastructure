@@ -79,7 +79,7 @@ resource "aws_eip_association" "eip_assoc" {
 
 resource "aws_key_pair" "instancekey" {
   key_name   = var.aws_key_pair
-  public_key = file("instancekey.pub")
+  public_key = file(var.aws_public_key)
 
   tags = {
     Name        = var.aws_name
@@ -102,7 +102,7 @@ resource "aws_instance" "instance" {
     Tool        = var.aws_tool
   }
 
-  key_name = aws_key_pair.instancekey.key_name
+  key_name = aws_key_pair
 
   depends_on = [aws_key_pair.instancekey, aws_kms_key.instanceKMSkey]
 
@@ -132,7 +132,7 @@ resource "aws_security_group" "instances_sg" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = ["x.x.x.x/32"]
+    cidr_blocks = [var.aws_cidr]
   }
 
   egress {
@@ -160,7 +160,6 @@ resource "aws_network_interface" "network_interface" {
     device_index = 1
   }
 }
-
 
 
 
